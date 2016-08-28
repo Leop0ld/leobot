@@ -10,22 +10,35 @@ comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?']
 
 @respond_to('document', re.IGNORECASE)
 def document(message):
-	message.send('DOCUMENT')
+    message.send('DOCUMENT')
 
 
-@listen_to('hi', re.IGNORECASE)
+@respond_to('안녕', re.IGNORECASE)
 def hi(message):
-    message.reply('Hi!')
+    message.reply('안녕하세요!')
     message.react('+1')
 
 
-@respond_to('help', re.IGNORECASE)
-def love(message):
-    message.reply('plz command "document"!')
+@listen_to('점심 추천', re.IGNORECASE)
+def lunch_recommend(message):
+    rand_menu = random.choice(LUNCH_MENU)
+    rand_comment_first = str(random.choice(comment_first))
+    rand_comment_second = str(random.choice(comment_second))
+
+    rand_comment = rand_comment_first + rand_menu + rand_comment_second
+    message.reply(rand_comment)
 
 
-@listen_to('점심 추천')
-def lunch(message):
-    rand_menu = LUNCH_MENU(random.randrange(0, len(LUNCH_MENU)))
-    rand_comment = str(comment_first[random.randrange(0, len(comment_first)] + rand_menu + comment_second[random.randrange(0, len(comment_second))])
-    message.send(rand_comment)
+@listen_to('점심 목록', re.IGNORECASE)
+def lunch_list(message):
+    send_list = ''.join(str(lunch + '\n') for lunch in LUNCH_MENU)
+    message.send(send_list)
+
+
+@listen_to('점심 추가 (.*)')
+def lunch_add(message, keyword):
+    try:
+        LUNCH_MENU.append(str(keyword))
+        message.send(str(keyword) + ' 추가 완료! :D')
+    except:
+        message.send(str(keyword) + ' 추가 실패 ㅠㅠ')
