@@ -4,8 +4,8 @@ import re
 import random
 
 LUNCH_MENU = ['논현각', '애덕', '대화', 'BOB', '꾸아땅']
-comment_first = ['오늘 점심은 ', '금일 점심은 ']
-comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?']
+comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에는 ']
+comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
 
 
 @respond_to('document', re.IGNORECASE)
