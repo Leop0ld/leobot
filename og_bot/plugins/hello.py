@@ -11,6 +11,7 @@ for menu in menus:
     lunch_menus.append(str(menu))
 
 f.close()
+
 comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에는 ']
 comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
 
@@ -45,6 +46,8 @@ def lunch_list(message):
 @listen_to('점심 추가 (.*)')
 def lunch_add(message, keyword):
     try:
+        add_f = open('lunch_menu.txt', 'a')
+        add_f.writelines(str(keyword+'\n'))
         lunch_menus.append(str(keyword))
         message.send(str(keyword) + ' 추가 완료! :D')
     except:
