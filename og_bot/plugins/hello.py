@@ -21,6 +21,11 @@ def document(message):
     message.send('DOCUMENT')
 
 
+@respond_to('나 (.*) 줘')
+def giveme(message, keyword):
+    message.reply('Here is {}'.format(keyword))
+
+
 @respond_to('안녕', re.IGNORECASE)
 def hi(message):
     message.reply('안녕하세요!')
