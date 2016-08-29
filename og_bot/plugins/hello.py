@@ -52,3 +52,15 @@ def lunch_add(message, keyword):
         message.send(str(keyword) + ' 추가 완료! :D')
     except:
         message.send(str(keyword) + ' 추가 실패 ㅠㅠ')
+
+
+@listen_to('점심 삭제 (.*)')
+def lunch_delete(message, keyword):
+    del_f = open('lunch_menu.txt', 'w')
+    lunch_menus.remove(keyword)
+
+    for i in lunch_menus:
+        del_f.write(i+'\n')
+
+    del_f.close()
+    message.send(keyword+' 삭제 성공!')
