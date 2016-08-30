@@ -1,7 +1,10 @@
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
+
+import json
 import re
 import random
+import time
 
 lunch_menus = list()
 
@@ -16,14 +19,25 @@ comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에
 comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
 
 
-@respond_to('문서', re.IGNORECASE)
+@respond_to('^명령어$')
 def document(message):
-    message.send('DOCUMENT')
-
-
-@respond_to('나 (.*) 줘')
-def giveme(message, keyword):
-    message.reply('Here is {}'.format(keyword))
+    attachments = [
+        {
+            'fallback': 'Fallback text',
+            'author_name': 'Myungseo Kang',
+            'author_link': 'http://www.github.com/Leop0ld',
+            'text': 'Personal Message: \n'
+                    '  "안녕" -> reaction Thumb and replay 안녕하세요!\n'
+                    '  "명령어" -> 사용할 수 있는 명령어와 범위를 알려줍니당\n'
+                    'Channel Message & Personal Message: \n'
+                    '  "점심" -> 점심 관련 명령어 확인하기(시간에 따라 재밌는 문구)\n'
+                    '  "점심 목록" -> 현재 점심 목록 보기\n'
+                    '  "점심 추천" -> 오늘의 점심 추천\n'
+                    '  "점심 추가 [메뉴]" -> 원하는 메뉴를 목록에 추가하기\n'
+                    '  "점심 삭제 [메뉴]" -> 마음에 안드는 메뉴를 삭제하기\n',
+            'color': '#59afe1'
+        }]
+    message.send_webapi('', json.dumps(attachments))
 
 
 @respond_to('안녕', re.IGNORECASE)
@@ -32,7 +46,35 @@ def hi(message):
     message.react('+1')
 
 
-@listen_to('점심 추천', re.IGNORECASE)
+@respond_to('^점심$')
+@listen_to('^점심$')
+def lunch(message):
+    attachments = [
+        {
+            'text': '"점심 목록" -> 현재 점심 목록 보기\n'
+                    '"점심 추천" -> 오늘의 점심 추천\n'
+                    '"점심 추가 [메뉴]" -> 원하는 메뉴를 목록에 추가하기\n'
+                    '"점심 삭제 [메뉴]" -> 마음에 안드는 메뉴를 삭제하기\n',
+            'color': '#59afe1'
+        }]
+    message.send_webapi('', json.dumps(attachments))
+
+    response = ''
+    now = time.localtime()
+
+    if now.tm_hour == 2:
+        if now.tm_min >= 30:
+            response = '점심시간이군요! 식사하러 안가셨나요?'
+        if now.tm_min < 30:
+            response = '아직 조금 남았는데 일이나 하시죳!'
+    elif now.tm_hour is 1 or 0:
+        response = '점심까지 한참 남았네요 ㅠㅠ'
+
+    message.send(response)
+
+
+@respond_to('^점심 추천$')
+@listen_to('^점심 추천$')
 def lunch_recommend(message):
     rand_menu = random.choice(lunch_menus)
     rand_comment_first = str(random.choice(comment_first))
@@ -42,12 +84,14 @@ def lunch_recommend(message):
     message.reply(rand_comment)
 
 
-@listen_to('점심 목록', re.IGNORECASE)
+@respond_to('^점심 목록$')
+@listen_to('^점심 목록$')
 def lunch_list(message):
     send_list = ''.join(str("{0}\n".format(lunch_menu)) for lunch_menu in lunch_menus)
     message.send(send_list)
 
 
+@respond_to('점심 추가 (.*)')
 @listen_to('점심 추가 (.*)')
 def lunch_add(message, keyword):
     try:
@@ -59,6 +103,7 @@ def lunch_add(message, keyword):
         message.send(str(keyword) + ' 추가 실패 ㅠㅠ')
 
 
+@respond_to('점심 삭제 (.*)')
 @listen_to('점심 삭제 (.*)')
 def lunch_delete(message, keyword):
     del_f = open('lunch_menu.txt', 'w')
