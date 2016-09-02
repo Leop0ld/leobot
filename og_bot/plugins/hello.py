@@ -15,6 +15,7 @@ for menu in menus:
 
 f.close()
 
+recommended_menu = ''
 comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에는 ']
 comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
 
@@ -76,11 +77,12 @@ def lunch(message):
 @respond_to('^점심 추천$')
 @listen_to('^점심 추천$')
 def lunch_recommend(message):
-    rand_menu = random.choice(lunch_menus)
+    global recommend_menu
+    recommend_menu = random.choice(lunch_menus.remove(recommend_menu))
     rand_comment_first = str(random.choice(comment_first))
     rand_comment_second = str(random.choice(comment_second))
 
-    rand_comment = rand_comment_first + rand_menu + rand_comment_second
+    rand_comment = rand_comment_first + recommend_menu + rand_comment_second
     message.reply(rand_comment)
 
 
@@ -114,3 +116,15 @@ def lunch_delete(message, keyword):
 
     del_f.close()
     message.send(keyword+' 삭제 성공!')
+
+
+@respond_to('[점심 별로야]')
+@listen_to('[점심 별로야]')
+def hate_lunch(message):
+    global recommend_menu
+
+    menus = lunch_menus.remove(recommend_menu)
+    recommend_menu = random.choice(menus)
+    message.react('cry')
+    message.send('히잉...')
+    message.reply('그럼 ' + recommend_menu + ' (은)는 어떠세요...?')
