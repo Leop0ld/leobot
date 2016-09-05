@@ -15,11 +15,14 @@ header = {
 
 weather_url = 'http://apis.skplanetx.com/weather/current/minutely?version=1'
 
+lat = 37.5135304
+lon = 127.03153410000004
+
 
 @respond_to('^날씨$')
 @listen_to('^날씨$')
 def weather_info(message):
-    message.reply('날씨 {시/도} {구/군} {읍/면/동} 순으로 입력해주세요!')
+    message.reply('날씨 {시(특별시, 광역시)/도} {시/군/구} {읍/면/동} 순으로 입력해주세요!')
 
 
 @respond_to('^오늘의 날씨$')
@@ -28,20 +31,42 @@ def today_weather(message):
     respond = requests.get(weather_url + '&city=서울&county=강남구&village=논현동', header).text
     response = ast.literal_eval(respond)
     status_code = int(response['result']['code'])
-    sky_status = '지금 서울 강남구 논현동의 날씨는 '+str(response['weather']['minutely'][0]['sky']['name'])+' 입니다.\n'
-    temperature_status = '그리고 현재 기온은 '+str(response['weather']['minutely'][0]['temperature']['tc'])+'도이며,'\
-                         + ' 오늘의 최저 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmin'])+'도이고,'\
-                         + ' 오늘의 최고 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmax'])+'도입니다.'
-
-    text = sky_status + temperature_status
-
     try:
         if status_code == 9200:
+            sky_status = '지금 서울 강남구 논현동의 날씨는 '+str(response['weather']['minutely'][0]['sky']['name'])+' 입니다.\n'
+            temperature_status = '그리고 현재 기온은 '+str(response['weather']['minutely'][0]['temperature']['tc'])+'도이며,'\
+                                 + ' 오늘의 최저 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmin'])+'도이고,'\
+                                 + ' 오늘의 최고 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmax'])+'도입니다.'
+
+            text = sky_status + temperature_status
+
             message.send(text)
         else:
-            message.send('Error Code: '+str(response['result']['code']))
-    except:
-        pass
+            message.send('Error Code: ' + str(status_code))
+    except Exception:
+        print(Exception.with_traceback)
+
+
+@listen_to('^날씨 (.*) (.*) (.*)$')
+def weather_search(message, city, county, village):
+    respond = requests.get(weather_url + '&city={0}&county={1}&village={2}'.format(city, county, village), header).content
+    response = ast.literal_eval(str(respond, encoding="utf-8"))
+    status_code = int(response['result']['code'])
+    try:
+        if status_code == 9200:
+            sky_status = '지금 {0} {1} {2}의 날씨는 '.format(city, county, village) \
+                         + str(response['weather']['minutely'][0]['sky']['name']) + ' 입니다.\n'
+
+            temperature_status = '그리고 현재 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tc']) + '도이며,' \
+                                 + ' 오늘의 최저 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmin']) + '도이고,' \
+                                 + ' 최고 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmax']) + '도입니다.'
+
+            text = sky_status + temperature_status
+            message.send(text)
+        else:
+            message.send('Error Code: ' + str(status_code))
+    except Exception:
+        print(Exception.with_traceback)
 
 
 @respond_to('^미세먼지 등급표$')
@@ -54,43 +79,57 @@ def dust_graph(message):
 @respond_to('^오늘의 미세먼지$')
 @listen_to('^오늘의 미세먼지$')
 def today_dust(message):
-    lat = 37.5135304
-    lon = 127.03153410000004
+    global lat, lon
     dust_url = 'http://apis.skplanetx.com/weather/dust?version=1&lat={0}&lon={1}'.format(lat, lon)
-    respond = requests.get(dust_url, header).text
+    try:
+        respond = requests.get(dust_url, header).text
+        response = ast.literal_eval(respond)
+        status_code = int(response['result']['code'])
+        if status_code == 9200:
+            text = '지금 서울 강남구 논현동의 미세먼지 농도는 '+str(response['weather']['dust'][0]['pm10']['value']) + ' 으로,'\
+                   ' 등급은 '+str(response['weather']['dust'][0]['pm10']['grade'])+' 입니다.'
+
+            message.send(text)
+        else:
+            message.send('Error Code: ' + str(status_code))
+    except Exception:
+        print(Exception.with_traceback)
+
+
+@respond_to('^오늘의 체감온도$')
+@listen_to('^오늘의 체감온도$')
+def wctindex(message):
+    global lat, lon
+    wctindex_url = 'http://apis.skplanetx.com/weather/windex/wctindex?version=1'
+    respond = requests.get(wctindex_url+'&lat={0}&lon={1}'.format(lat, lon), header).text
     response = ast.literal_eval(respond)
     status_code = int(response['result']['code'])
-    text = '지금 서울 강남구 논현동의 미세먼지 농도는 '+str(response['weather']['dust'][0]['pm10']['value']) + ' 으로,'\
-           ' 등급은 '+str(response['weather']['dust'][0]['pm10']['grade'])+' 입니다.'
+    if status_code == 9200:
+        index = response['weather']['wIndex']['wctIndex'][0]['current']['index']
+        time_release = response['weather']['wIndex']['wctIndex'][0]['current']['timeRelease']
 
-    try:
-        if status_code == 9200:
-            message.send(text)
-        else:
-            message.send('Error Code: ' + str(response['result']['code']))
-    except:
-        pass
+        release = time_release.split('-')
+
+        text = str(release[0]+'년 '+release[1]+'월 '+release[2][:2]+'일 '+release[2][2:])\
+            + ' 서울 강남구 논현동의 체감온도는 '+index+' 도입니다'
+        message.send(text)
+    else:
+        message.send('Error Code: ' + str(status_code))
 
 
-@listen_to('^날씨 (.*) (.*) (.*)$')
-def weather_search(message, city, county, village):
-    respond = requests.get(weather_url + '&city={0}&county={1}&village={2}'.format(city, county, village), header).content
-    response = ast.literal_eval(str(respond, encoding="utf-8"))
-    print(response)
+@respond_to('^오늘의 자외선$')
+@listen_to('^오늘의 자외선$')
+def uvindex(message):
+    global lat, lon
+    uvindex_url = 'http://apis.skplanetx.com/weather/windex/uvindex?version=1'
+    respond = requests.get(uvindex_url+'&lat={0}&lon={1}'.format(lat, lon), header).text
+    response = ast.literal_eval(respond)
     status_code = int(response['result']['code'])
-    sky_status = '지금 {0} {1} {2}의 날씨는 '.format(city, county, village) \
-                 + str(response['weather']['minutely'][0]['sky']['name']) + ' 입니다.\n'
+    if status_code == 9200:
+        index = response['weather']['wIndex']['uvindex'][0]['day01']['index']
+        comment = response['weather']['wIndex']['uvindex'][0]['day01']['comment']
 
-    temperature_status = '그리고 현재 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tc']) + '도이며,' \
-                         + ' 오늘의 최저 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmin']) + '도이고,' \
-                         + ' 최고 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmax']) + '도입니다.'
-
-    text = sky_status + temperature_status
-
-    try:
-        if status_code == 9200:
-            message.send(text)
-        else:
-            message.send('Error Code: ' + str(response['result']['code']))
-    except:
-        pass
+        text = '오늘 서울 강남구 논현동의 자외선 지수는 '+index+' 로, '+comment
+        message.send(text)
+    else:
+        message.send('Error Code: ' + str(status_code))
