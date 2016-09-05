@@ -77,13 +77,14 @@ def lunch(message):
 @respond_to('^점심 추천$')
 @listen_to('^점심 추천$')
 def lunch_recommend(message):
-    global recommend_menu
-    recommend_menu = random.choice(lunch_menus.remove(recommend_menu))
+    global recommended_menu
+    recommend_menu = random.choice(lunch_menus)
     rand_comment_first = str(random.choice(comment_first))
     rand_comment_second = str(random.choice(comment_second))
 
     rand_comment = rand_comment_first + recommend_menu + rand_comment_second
     message.reply(rand_comment)
+    recommended_menu = recommend_menu
 
 
 @respond_to('^점심 목록$')
@@ -118,13 +119,17 @@ def lunch_delete(message, keyword):
     message.send(keyword+' 삭제 성공!')
 
 
-@respond_to('[점심 별로야]')
-@listen_to('[점심 별로야]')
+@respond_to('^점심 별로야$')
+@listen_to('^점심 별로야$')
 def hate_lunch(message):
-    global recommend_menu
-
-    menus = lunch_menus.remove(recommend_menu)
-    recommend_menu = random.choice(menus)
-    message.react('cry')
-    message.send('히잉...')
-    message.reply('그럼 ' + recommend_menu + ' (은)는 어떠세요...?')
+    try:
+        global recommended_menu
+        menus = lunch_menus.copy()
+        menus.remove(recommended_menu)
+        recommend_menu = random.choice(menus)
+        message.react('cry')
+        message.send('히잉...')
+        message.reply('그럼 ' + recommend_menu + ' (은)는 어떠세요...?')
+        recommended_menu = recommend_menu
+    except Exception:
+        message.send('추천부터 받고 말하세요 ㅡㅡ!')
