@@ -99,7 +99,7 @@ def lunch_list(message):
 def lunch_add(message, keyword):
     try:
         add_f = open('lunch_menu.txt', 'a')
-        add_f.writelines(str(keyword+'\n'))
+        add_f.writelines(str(keyword + '\n'))
         lunch_menus.append(str(keyword))
         message.send(str(keyword) + ' 추가 완료! :D')
     except:
@@ -113,15 +113,15 @@ def lunch_delete(message, keyword):
     lunch_menus.remove(keyword)
 
     for i in lunch_menus:
-        del_f.write(i+'\n')
+        del_f.write(i + '\n')
 
     del_f.close()
-    message.send(keyword+' 삭제 성공!')
+    message.send(keyword + ' 삭제 성공!')
 
 
-@respond_to('^점심 별로야$')
-@listen_to('^점심 별로야$')
-def hate_lunch(message):
+@respond_to('^점심 별로(.*)$')
+@listen_to('^점심 별로(.*)$')
+def hate_lunch(message, keyword):
     try:
         global recommended_menu
         menus = lunch_menus.copy()
@@ -133,3 +133,18 @@ def hate_lunch(message):
         recommended_menu = recommend_menu
     except Exception:
         message.send('추천부터 받고 말하세요 ㅡㅡ!')
+
+
+@respond_to('^점심 안먹어$')
+@listen_to('^점심 안먹어$')
+def no_eat(message):
+    message.send('챙겨드세요... ㅠㅠ')
+
+
+@respond_to('^점심 좋다$')
+@listen_to('^점심 좋다$')
+def like_lunch(message):
+    global recommended_menu
+    comment = '헤헿 다행이네요! ' + recommended_menu + ' 에서 맛점하세요!'
+    message.react('yum')
+    message.reply(comment)
