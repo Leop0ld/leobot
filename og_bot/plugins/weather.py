@@ -16,23 +16,63 @@ header = {
 base_url = 'http://apis.skplanetx.com/weather/current/minutely?version=1'
 
 
-@listen_to('오늘의 날씨')
+@respond_to('^날씨$')
+@listen_to('^날씨')
+def weather_info(message):
+    message.reply('날씨 {시/도} {구/군/면} {읍/면/동} 순으로 입력해주세요!')
+
+
+@respond_to('^오늘의 날씨$')
+@listen_to('^오늘의 날씨$')
 def today_weather(message):
     respond = requests.get(base_url + '&city=서울&county=강남구&village=논현동', header).text
     response = ast.literal_eval(respond)
     status_code = int(response['result']['code'])
-    weather_status = str(response['weather']['minutely'][0]['sky']['name'])
+    sky_status = '지금 서울 강남구 논현동의 날씨는 '+str(response['weather']['minutely'][0]['sky']['name'])+' 입니다.\n'
+    temperature_status = '그리고 현재 기온은 '+str(response['weather']['minutely'][0]['temperature']['tc'])+'도이며,'\
+                         + ' 오늘의 최저 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmin'])+'도이고,'\
+                         + ' 오늘의 최고 기온은 '+str(response['weather']['minutely'][0]['temperature']['tmax'])+'도입니다.'
+
+    text = sky_status + temperature_status
 
     try:
         if status_code == 9200:
-            message.send('오늘 서울 강남구 논현동의 날씨는 '+weather_status+' 입니다')
+            message.send(text)
         else:
             message.send('Error Code: '+str(response['result']['code']))
     except:
         pass
 
 
-@listen_to('날씨 (.*) (.*) (.*)')
+@respond_to('^미세먼지 등급표$')
+@listen_to('^미세먼지 등급표')
+def dust_graph(message):
+    text = '농도(㎍/㎥)\n- 0~30: 좋음, 31~80: 보통, 81~120: 약간나쁨, 121~200: 나쁨, 201~300: 매우나쁨'
+    message.send(text)
+
+
+@respond_to('^오늘의 미세먼지$')
+@listen_to('^오늘의 미세먼지$')
+def today_dust(message):
+    lat = 37.5135304
+    lon = 127.03153410000004
+    dust_url = 'http://apis.skplanetx.com/weather/dust?version=1&lat={0}&lon={1}'.format(lat, lon)
+    respond = requests.get(dust_url, header).text
+    response = ast.literal_eval(respond)
+    status_code = int(response['result']['code'])
+    text = '지금 서울 강남구 논현동의 미세먼지 농도는 '+str(response['weather']['dust'][0]['pm10']['value']) + ' 으로,'\
+           ' 등급은 '+str(response['weather']['dust'][0]['pm10']['grade'])+' 입니다.'
+
+    try:
+        if status_code == 9200:
+            message.send(text)
+        else:
+            message.send('Error Code: ' + str(response['result']['code']))
+    except:
+        pass
+
+
+@listen_to('^날씨 (.*) (.*) (.*)$')
 def weather_search(message, city, county, village):
     respond = requests.get(base_url + '&city={0}&county={1}&village={2}'.format(city, county, village), header).content
     response = json.loads(str(respond, encoding='utf-8'))

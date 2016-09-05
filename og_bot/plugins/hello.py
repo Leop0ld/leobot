@@ -122,8 +122,8 @@ def lunch_delete(message, keyword):
 @respond_to('^점심 별로(.*)$')
 @listen_to('^점심 별로(.*)$')
 def hate_lunch(message, keyword):
-    try:
-        global recommended_menu
+    global recommended_menu
+    if recommended_menu is not '':
         menus = lunch_menus.copy()
         menus.remove(recommended_menu)
         recommend_menu = random.choice(menus)
@@ -131,7 +131,7 @@ def hate_lunch(message, keyword):
         message.send('히잉...')
         message.reply('그럼 ' + recommend_menu + ' (은)는 어떠세요...?')
         recommended_menu = recommend_menu
-    except Exception:
+    else:
         message.send('추천부터 받고 말하세요 ㅡㅡ!')
 
 
@@ -148,3 +148,16 @@ def like_lunch(message):
     comment = '헤헿 다행이네요! ' + recommended_menu + ' 에서 맛점하세요!'
     message.react('yum')
     message.reply(comment)
+
+
+@listen_to('^joined (.*)$')
+def join_channel(message, keyword):
+    text = '반가워요! 저는 OG Bot 입니다!\n' + u'<@{}>'.format(message._get_user_id()) + ' 님!'
+    text += keyword + ' 이외에도 다양한 채널이 있으니 천천히 둘러보세요!'
+    message.send(text)
+
+
+@listen_to('^left (.*)$')
+def left_channel(message, keyword):
+    text = '떠나시는 건가요 ㅠㅠ\n' + u'<@{}>'.format(message._get_user_id()) + ' 님'
+    message.send(text)
