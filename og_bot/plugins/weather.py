@@ -13,19 +13,19 @@ header = {
     'appKey': 'e07f3817-4579-38e7-9dd5-3d9930e06fb9',
 }
 
-base_url = 'http://apis.skplanetx.com/weather/current/minutely?version=1'
+weather_url = 'http://apis.skplanetx.com/weather/current/minutely?version=1'
 
 
 @respond_to('^날씨$')
-@listen_to('^날씨')
+@listen_to('^날씨$')
 def weather_info(message):
-    message.reply('날씨 {시/도} {구/군/면} {읍/면/동} 순으로 입력해주세요!')
+    message.reply('날씨 {시/도} {구/군} {읍/면/동} 순으로 입력해주세요!')
 
 
 @respond_to('^오늘의 날씨$')
 @listen_to('^오늘의 날씨$')
 def today_weather(message):
-    respond = requests.get(base_url + '&city=서울&county=강남구&village=논현동', header).text
+    respond = requests.get(weather_url + '&city=서울&county=강남구&village=논현동', header).text
     response = ast.literal_eval(respond)
     status_code = int(response['result']['code'])
     sky_status = '지금 서울 강남구 논현동의 날씨는 '+str(response['weather']['minutely'][0]['sky']['name'])+' 입니다.\n'
@@ -74,7 +74,23 @@ def today_dust(message):
 
 @listen_to('^날씨 (.*) (.*) (.*)$')
 def weather_search(message, city, county, village):
-    respond = requests.get(base_url + '&city={0}&county={1}&village={2}'.format(city, county, village), header).content
-    response = json.loads(str(respond, encoding='utf-8'))
+    respond = requests.get(weather_url + '&city={0}&county={1}&village={2}'.format(city, county, village), header).content
+    response = ast.literal_eval(str(respond, encoding="utf-8"))
+    print(response)
+    status_code = int(response['result']['code'])
+    sky_status = '지금 {0} {1} {2}의 날씨는 '.format(city, county, village) \
+                 + str(response['weather']['minutely'][0]['sky']['name']) + ' 입니다.\n'
 
-    message.send(response)
+    temperature_status = '그리고 현재 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tc']) + '도이며,' \
+                         + ' 오늘의 최저 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmin']) + '도이고,' \
+                         + ' 최고 기온은 ' + str(response['weather']['minutely'][0]['temperature']['tmax']) + '도입니다.'
+
+    text = sky_status + temperature_status
+
+    try:
+        if status_code == 9200:
+            message.send(text)
+        else:
+            message.send('Error Code: ' + str(response['result']['code']))
+    except:
+        pass
