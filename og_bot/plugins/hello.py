@@ -8,36 +8,7 @@ import time
 import sys
 
 
-lunch_menus = list()
-
-f = open('lunch_menu.txt', 'r+')
-menus = f.read().splitlines()
-for menu in menus:
-    lunch_menus.append(str(menu))
-
-f.close()
-
-recommended_menu = ''
-comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에는 ']
-comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
-
-@listen_to('OG봇?', re.IGNORECASE)
-@respond_to('OG봇?', re.IGNORECASE)
-def call_bot(message):
-    message.send('응?')
-
-@listen_to('^OG봇 퇴근$', re.IGNORECASE)
-@respond_to('^OG봇 퇴근$', re.IGNORECASE)
-def shutdown_bot(message):
-    message.send('OG봇 퇴근합니다~! 수고하셨습니다!')
-    print('OG봇 퇴근')
-    sys.exit()
-
-
-@listen_to('^OG봇 명령어$', re.IGNORECASE)
-@respond_to('^OG봇 명령어$', re.IGNORECASE)
-def document(message):
-    attachments = [
+attachments = [
         {
             'fallback': 'Fallback text',
             'author_name': 'Myungseo Kang',
@@ -63,6 +34,38 @@ def document(message):
                     '    "오늘의 체감온도" -> 회사(강남구 논현동)의 체감온도를 알려줍니다\n',
             'color': '#59afe1'
         }]
+
+lunch_menus = list()
+
+f = open('lunch_menu.txt', 'r+')
+menus = f.read().splitlines()
+for menu in menus:
+    lunch_menus.append(str(menu))
+
+f.close()
+
+recommended_menu = ''
+comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에는 ']
+comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
+
+@listen_to('^OG봇?$', re.IGNORECASE)
+@respond_to('^OG봇?$', re.IGNORECASE)
+def call_bot(message):
+    message.send('응?')
+
+@listen_to('^OG봇 퇴근$', re.IGNORECASE)
+@respond_to('^OG봇 퇴근$', re.IGNORECASE)
+def shutdown_bot(message):
+    message.send('OG봇 퇴근합니다~! 수고하셨습니다!')
+    print('OG봇 퇴근')
+    sys.exit()
+
+
+@listen_to('^OG봇 명령어$', re.IGNORECASE)
+@respond_to('^OG봇 명령어$', re.IGNORECASE)
+@respond_to('^명령어$', re.IGNORECASE)
+def document(message):
+    global attachments
     message.send_webapi('', json.dumps(attachments))
 
 
@@ -176,16 +179,3 @@ def like_lunch(message):
     comment = '헤헿 다행이네요! ' + recommended_menu + ' 에서 맛점하세요!'
     message.react('yum')
     message.reply(comment)
-
-
-@listen_to('^joined (.*)$')
-def join_channel(message, keyword):
-    text = '반가워요! 저는 OG Bot 입니다!\n' + u'<@{}>'.format(message._get_user_id()) + ' 님!'
-    text += keyword + ' 이외에도 다양한 채널이 있으니 천천히 둘러보세요!'
-    message.send(text)
-
-
-@listen_to('^left (.*)$')
-def left_channel(message, keyword):
-    text = '떠나시는 건가요 ㅠㅠ\n' + u'<@{}>'.format(message._get_user_id()) + ' 님'
-    message.send(text)
