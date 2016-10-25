@@ -133,3 +133,37 @@ def uvindex(message):
         message.send(text)
     else:
         message.send('Error Code: ' + str(status_code))
+
+
+@respond_to('^오늘의 불쾌지수$')
+@listen_to('^오늘의 불쾌지수$')
+def thindex(message):
+    global lat, lon
+    thindex_url = 'http://apis.skplanetx.com/weather/windex/thindex?version=1'
+    respond = requests.get(thindex_url + '&lat={0}&lon={1}'.format(lat, lon), header).text
+    response = ast.literal_eval(respond)
+    status_code = int(response['result']['code'])
+
+    if status_code == 9200:
+        index = response['weather']['wIndex']['thIndex'][0]['current']['index']
+
+        text = '현재 서울 강남구 논현동의 불쾌지수는 '+str(index)+' 입니다.'
+        message.send(text)
+    else:
+        message.send('Error Code: ' + str(status_code))
+
+
+@respond_to('^불쾌지수 등급표$')
+@listen_to('^불쾌지수 등급표$')
+def thindex_graph(message):
+    msg = [{
+        'fallback': 'Fallback text',
+        'author_name': 'Myungseo Kang',
+        'author_link': 'http://www.github.com/Leop0ld',
+        'text': '낮음(0~68 미만): 전원 쾌적함을 느낌\n'
+                '보통(68~75 미만): 불쾌감을 나타내기 시작함\n'
+                '높음(75~80 미만): 50% 정도 불쾌감을 느낌\n'
+                '매우 높음(80 이상): 전원 불쾌감을 느낌\n',
+        'color': '#59afe1',
+    }]
+    message.send_webapi('', json.dumps(msg))
