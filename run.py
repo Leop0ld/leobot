@@ -1,5 +1,7 @@
-from slackbot.bot import Bot
+import daemon
 import slackbot_settings
+
+from slackbot.bot import Bot
 
 
 def execute():
@@ -8,4 +10,5 @@ def execute():
     bot.run()
 
 if __name__ == "__main__":
-    execute()
+    with daemon.DaemonContext():
+        execute()

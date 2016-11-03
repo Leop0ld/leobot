@@ -1,5 +1,13 @@
+# for Mac
 .DS_Store
+
+# Python cache file
 __pycache__
 
 # IDE
 .idea
+.env
+
+# file
+lunch_menu.txt
+ate_lunch_menu.txt
