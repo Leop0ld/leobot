@@ -1,5 +1,5 @@
 from slackbot.bot import Bot
-import slackbot_settings
+from slackbot_settings import *
 
 
 def execute():
