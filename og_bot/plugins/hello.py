@@ -48,18 +48,10 @@ comment_first = ['오늘 점심은 ', '금일 점심은 ', '오늘 같은 날에
 comment_second = [' (으)로 가보세요!', ' (이)가 어떠신가요?', ' (이)가 좋을 것 같네요 :)']
 
 
-@listen_to('^OG봇[?]$', re.IGNORECASE)
-@respond_to('^OG봇[?]$', re.IGNORECASE)
+@listen_to('^OG봇?$', re.IGNORECASE)
+@respond_to('^OG봇?$', re.IGNORECASE)
 def call_bot(message):
     message.send('응?')
-
-
-@listen_to('^OG봇 퇴근$', re.IGNORECASE)
-@respond_to('^OG봇 퇴근$', re.IGNORECASE)
-def shutdown_bot(message):
-    message.send('OG봇 퇴근합니다~! 수고하셨습니다!')
-    print('OG봇 퇴근')
-    sys.exit()
 
 
 @listen_to('^OG봇 명령어$', re.IGNORECASE)
@@ -210,7 +202,7 @@ def write_today_lunch_menu(message, keyword):
             ff.write(text+'\n')
         message.send(keyword+' 기록 완료 :D')
     else:
-        if wrote_text == text:
+        if text in wrote_text:
             message.send('이미 기록되어 있습니다.')
         else:
             with open('ate_lunch_menu.txt', 'a') as ff:
