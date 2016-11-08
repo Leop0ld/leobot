@@ -172,11 +172,18 @@ def thindex_graph(message):
 @respond_to('^오늘의 초미세먼지$')
 @listen_to('^오늘의 초미세먼지$')
 def pm25(message):
-    thindex_url = 'http://apis.skplanetx.com/weather/windex/thindex?version=1'
-    respond = requests.get(thindex_url + '&lat={0}&lon={1}'.format(lat, lon), header).text
+    global lat, lon
+    pm25_url = 'http://apis.skplanetx.com/weather/airquality/current?version=1'
+    respond = requests.get(pm25_url + '&lat={0}&lon={1}'.format(lat, lon), header).text
     response = ast.literal_eval(respond)
-    pm = response['weather']['aitQuality']['current']['pm25']
-    message.reply('오늘의 초미세먼지 농도는 '+pm['value']+'㎍/㎥ 이며, 등급은 '+pm['grade']+'입니다.')
+    print(response)
+    status_code = int(response['result']['code'])
+    if status_code == 9200:
+        pm = response['weather']['airQuality']['current'][0]
+        text = '오늘의 초미세먼지 농도는 ' + str(pm['pm25']['value']) + '㎍/㎥ 이며, 등급은 ' + str(pm['pm25']['grade']) + '입니다.'
+        message.reply(text)
+    else:
+        message.send('Error Code: ' + str(status_code))
 
 
 @respond_to('^초미세먼지 등급표$')
