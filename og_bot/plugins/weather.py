@@ -167,3 +167,26 @@ def thindex_graph(message):
         'color': '#59afe1',
     }]
     message.send_webapi('', json.dumps(msg))
+
+
+@respond_to('^오늘의 초미세먼지$')
+@listen_to('^오늘의 초미세먼지$')
+def pm25(message):
+    thindex_url = 'http://apis.skplanetx.com/weather/windex/thindex?version=1'
+    respond = requests.get(thindex_url + '&lat={0}&lon={1}'.format(lat, lon), header).text
+    response = ast.literal_eval(respond)
+    pm = response['weather']['aitQuality']['current']['pm25']
+    message.reply('오늘의 초미세먼지 농도는 '+pm['value']+'㎍/㎥ 이며, 등급은 '+pm['grade']+'입니다.')
+
+
+@respond_to('^초미세먼지 등급표$')
+@listen_to('^초미세먼지 등급표$')
+def pm25_graph(message):
+    msg = [{
+        'fallback': 'Fallback text',
+        'author_name': 'Myungseo Kang',
+        'author_link': 'https://github.com/Leop0ld',
+        'text': '농도(㎍/㎥)\n- 0~30: 좋음, 31~80: 보통, 81~120: 약간나쁨, 121~200: 나쁨, 201~300: 매우나쁨',
+        'color': '#59afe1',
+    }]
+    message.send_webapi('', json.dumps(msg))
