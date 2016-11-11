@@ -200,12 +200,13 @@ def write_today_lunch_menu(message, keyword):
     if not wrote_text:
         with open('ate_lunch_menu.txt', 'w') as ff:
             ff.write(text+'\n')
-        message.send(keyword+' 기록 완료 :D')
+        message.reply(keyword+' 기록 완료 :D')
     else:
         if text in wrote_text:
-            message.send('이미 기록되어 있습니다.')
+            message.reply('이미 기록되어 있습니다.')
         else:
             with open('ate_lunch_menu.txt', 'a') as ff:
                 ff.write(text+'\n')
+            message.reply(keyword+' 기록 완료 :D')
 
     f.close()
