@@ -1,9 +1,4 @@
-# for Mac
-.DS_Store
-
-# Python cache file
-__pycache__
-
-# IDE
-.idea
+node_modules
+.DS_Store*
+.hubot_history
 .env

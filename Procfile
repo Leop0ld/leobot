@@ -1,1 +1,1 @@
-worker: python run.py
+web: bin/hubot -a slack
