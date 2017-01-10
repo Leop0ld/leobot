@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/opengallery/og-bot.svg?branch=master)](https://travis-ci.org/opengallery/og-bot)
 
-OG BOT is a simple ROBOT using [Hubot](https://github.com/github/hubot) for [OPEN GALLERY](https://www.opengallery.co.kr/) Slack.
+OG BOT is a simple ROBOT using [Hubot](https://github.com/github/hubot) for [OPEN GALLERY](http://www.opengallery.co.kr/) Slack.
 
 
 ## How to contribute
