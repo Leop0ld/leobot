@@ -5,6 +5,8 @@
   "author": "Leop0ld <l3opold7@gmail.com>",
   "description": "A simple robot using Hubot for OPEN GALLERY",
   "dependencies": {
+    "cheerio": "^0.22.0",
+    "cron": "^1.2.1",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.2.6",
