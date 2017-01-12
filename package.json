@@ -1,8 +1,8 @@
 {
   "name": "og-bot",
   "version": "0.1.0",
-  "private": true,
   "author": "Leop0ld <l3opold7@gmail.com>",
+  "license": "MIT",
   "description": "A simple robot using Hubot for OPEN GALLERY",
   "dependencies": {
     "cheerio": "^0.22.0",
@@ -22,6 +22,10 @@
     "hubot-slack": "^4.3.1"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.4.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opengallery/og-bot"
   }
 }
