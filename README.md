@@ -18,6 +18,6 @@ OG BOT is a simple ROBOT using [Hubot](https://github.com/github/hubot) for [OPE
 
 4. Then I merge it if it is no problem.
 
-5.I can add your name into CONTRIBUTORS.txt if you want.
+5. I can add your name into CONTRIBUTORS.txt if you want.
 
 6. Finally thank you very much.
