@@ -23,4 +23,4 @@ module.exports = (robot) ->
       $ = cheerio.load(body)
       title = $('.dotd-title').text()
       title = title.replace /\n|\t/g, ""
-      msg.send "어서 <#{title}> 을(를) 받아가세요!! :+1: \n https://www.packtpub.com/packt/offers/free-learning"
+      msg.send "어서 < #{title} > 을(를) 받아가세요!! :+1: \n https://www.packtpub.com/packt/offers/free-learning"
