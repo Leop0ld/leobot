@@ -15,14 +15,18 @@ module.exports = (robot) ->
     request baseUrl + '/trending', (_, res) ->
       $ = cheerio.load res.body
 
+      linkList = []
       i = 0
       $('.d-inline-block > h3 > a').each ->
         a = $(this)
         url = baseUrl + a.attr('href')
-        msg.send url
+        linkList.push url
         i++
         if i >= 5
           return false
+
+      for link in linkList
+        msg.send link
 
   robot.respond /github trending (.+)$/i, (msg) ->
     lang = msg.match[1]
@@ -30,11 +34,15 @@ module.exports = (robot) ->
     request baseUrl + '/trending/' + lang, (_, res) ->
       $ = cheerio.load res.body
 
+      linkList = []
       i = 0
       $('.d-inline-block > h3 > a').each ->
         a = $(this)
         url = baseUrl + a.attr('href')
-        msg.send url
+        linkList.push url
         i++
         if i >= 5
           return false
+			
+      for link in linkList
+        msg.send link
