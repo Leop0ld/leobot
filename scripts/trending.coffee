@@ -25,7 +25,7 @@ module.exports = (robot) ->
         if i >= 5
           return false
 
-      for link in linkList
+      for link in linkList.reverse()
         msg.send link
 
   robot.respond /github trending (.+)$/i, (msg) ->
@@ -44,5 +44,5 @@ module.exports = (robot) ->
         if i >= 5
           return false
 			
-      for link in linkList
+      for link in linkList.reverse()
         msg.send link
