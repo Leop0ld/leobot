@@ -4,9 +4,7 @@
 # Author: Leop0ld
 #
 # Commands:
-#     가위바위보 (가위 or 찌)!
-#     가위바위보 (바위 or 묵)!
-#     가위바위보 (보 or 빠)!
+#     가위바위보 (가위 or 찌) or (바위 or 묵) or (보 or 빠)! - 봇과 가위바위보를 할 수 있다.
 
 module.exports = (robot) ->
   robot.hear /가위바위보 (가위|바위|보|묵|찌|빠|)!$/i, (msg) ->

@@ -4,8 +4,8 @@
 # Author: Leop0ld
 #
 # Commands:
-#   hubot github trending - Get top 5 GitHub trending repositories
-#   hubot github trending :language - Get top 5 GitHub trending repositories with language
+#   hubot github trending - Github trending 의 상위 5개 저장소의 주소를 알려준다.
+#   hubot github trending (language) - Github trending 의 language 로 이루어진 상위 5개 저장소의 주소를 알려준다.
 
 cheerio = require 'cheerio'
 request = require 'request'

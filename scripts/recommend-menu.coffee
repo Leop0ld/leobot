@@ -4,7 +4,9 @@
 # Author: Leop0ld
 #
 # Commands:
-#
+#   점심목록! - 점심목록을 보여준다.
+#   점심추천! - 점심메뉴 중에 랜덤으로 추천해준다.
+#   점심추가! (메뉴이름) - 점심목록에 새로운 메뉴를 추가한다.
 
 firebase = require "firebase"
 

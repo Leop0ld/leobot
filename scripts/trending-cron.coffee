@@ -11,7 +11,7 @@ baseUrl = "https://github.com"
 
 
 module.exports = (robot) ->
-  new cronJob('0 30 13 * * *', sendMessageMethod(robot), null, true, timeZone)
+  new cronJob('0 30 10 * * *', sendMessageMethod(robot), null, true, timeZone)
 
 sendMessageMethod = (robot) ->
   -> fetchTrendings(robot)

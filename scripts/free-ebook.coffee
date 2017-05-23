@@ -4,7 +4,7 @@
 # Author: Leop0ld
 #
 # Commands:
-#   오늘의무료책! or 오늘의 무료책! or 무료책!
+#   오늘의무료책! or 오늘의 무료책! or 무료책! - 오늘의 Packtpub의 무료책을 알려준다.
 
 module.exports = (robot) ->
   cheerio = require 'cheerio'

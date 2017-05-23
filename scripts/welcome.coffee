@@ -5,7 +5,7 @@
 # Author: Leop0ld
 #
 # Commands:
-#     봇사용법! or 봇 사용법!
+#     봇사용법! or 봇 사용법! - 봇의 사용법을 알려준다.
 
 module.exports = (robot) ->
   robot.enter (res) ->
