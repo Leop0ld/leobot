@@ -1,12 +1,12 @@
-# Description: 
+# Description:
 #     가위바위보 게임을 한다.
+#
+# Author: Leop0ld
 #
 # Commands:
 #     가위바위보 (가위 or 찌)!
 #     가위바위보 (바위 or 묵)!
 #     가위바위보 (보 or 빠)!
-#
-# Author: Leop0ld
 
 module.exports = (robot) ->
   robot.hear /가위바위보 (가위|바위|보|묵|찌|빠|)!$/i, (msg) ->

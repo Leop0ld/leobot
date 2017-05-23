@@ -1,10 +1,10 @@
-# Description: 
+# Description:
 #     주말 혹은 월요일 까지 남은 시간을 퍼센트화 해서 보여준다.
+#
+# Author: Leop0ld
 #
 # Commands:
 #     주말로딩! or 월요일로딩!
-#
-# Author: Leop0ld
 
 moment = require 'moment'
 

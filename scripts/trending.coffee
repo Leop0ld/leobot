@@ -1,9 +1,11 @@
 # Description:
 #   Get GitHub trending repositories
 #
+# Author: Leop0ld
+#
 # Commands:
 #   hubot github trending - Get top 5 GitHub trending repositories
-#   hubot github trending :lang - Get top 5 GitHub trending repositories with lang
+#   hubot github trending :language - Get top 5 GitHub trending repositories with language
 
 cheerio = require 'cheerio'
 request = require 'request'
@@ -43,6 +45,6 @@ module.exports = (robot) ->
         i++
         if i >= 5
           return false
-			
+
       for link in linkList.reverse()
         msg.send link
