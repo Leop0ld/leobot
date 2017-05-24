@@ -5,19 +5,25 @@
 
 OG BOT is a simple ROBOT using [Hubot](https://github.com/github/hubot) for [OPEN GALLERY](http://www.opengallery.co.kr/) Slack.
 
+## Install to local
+
+First, require node 4.4.x runtime.
+
+And then input this command
+
+```shell
+$ bin/hubot
+# This command will run command "npm install"
+```
 
 ## How to contribute
 
 0. You can write on [Github ISSUE](https://github.com/opengallery/og-bot/issues) if have nice IDEA!
 
-1. Then, I'll read this ISSUE and assigned myself. (I want to that you can do it)
+1. And create PR when you finished that task.
 
-2. And create PR.
+2. I'll review it.
 
-3. We review it.
+3. Then I merge it if no problem.
 
-4. Then I merge it if it is no problem.
-
-5. I can add your name into CONTRIBUTORS.txt if you want.
-
-6. Finally thank you very much.
+4. I can add your name into CONTRIBUTORS.txt if you want.
