@@ -43,19 +43,18 @@ module.exports = (robot) ->
           msg.send "#{value}"
 
   saveData = (msg, menu) ->
-#    # 중복 처리
-#    lunchMenusRef.once "value", (data) ->
-#      for key, value of data.val()
-#        robot.logger.info "Value: " + value
-#        robot.logger.info "Menu: " + menu
-#        if menu == value
-#          flag = false
     flag = true
-    if flag
-      lunchMenusRef.push(menu).then ->
-        msg.send "#{menu} 추가 완료!"
-    else
-      msg.send "이미 존재하는 메뉴 이름입니다."
+    # 중복 처리
+    lunchMenusRef.once "value", (data) ->
+      for key, value of data.val()
+        if menu == value
+          flag = false
+    .then ->
+      if flag
+        lunchMenusRef.push(menu).then ->
+          msg.send "#{menu} 추가 완료!"
+      else
+        msg.send "이미 존재하는 메뉴 이름입니다."
 
   showData = (msg) ->
     menuList = []
