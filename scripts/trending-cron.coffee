@@ -17,8 +17,8 @@ sendMessageMethod = (robot) ->
   -> fetchTrendings(robot)
 
 fetchTrendings = (robot) ->
-  robot.http().get(baseUrl + "/trending") (err, res, body) ->
-    $ = cheerio.load res.body
+  robot.http(baseUrl + "/trending").get() (err, res, body) ->
+    $ = cheerio.load body
 
     linkList = []
     i = 0
