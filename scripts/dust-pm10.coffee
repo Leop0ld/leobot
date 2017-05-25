@@ -53,7 +53,7 @@ module.exports = (robot) ->
       pm10Grade = dataObj.pm10.grade
 
       result_msg = "*#{timeObservation} 기준 #{station_name} 관측소 관측 결과* 입니다.\n"
-      result_msg += "#{location} 의 현재 미세먼지(PM10) 의 농도는 *#{pm10Value}㎍/㎥* 이며, 등급은 *#{pm10Grade}* 입니다."
+      result_msg += "#{location}의 현재 미세먼지(PM10) 의 농도는 *#{pm10Value}㎍/㎥* 이며, 등급은 *#{pm10Grade}* 입니다."
 
       msg.send result_msg
 
