@@ -13,7 +13,7 @@ baseUrl = 'http://apis.skplanetx.com/weather/dust?version=1&appKey=e07f3817-4579
 
 module.exports = (robot) ->
   robot.hear /미세먼지(등급표| 등급표)!/i, (msg) ->
-    result_msg = "미세먼지 등급표(PM10)\n0~30: 좋음 :smile:\n31~80: 보통 :slightly_smiling_face:\n81~120: 약간나쁨 :worried:\n121~200: 나쁨 :angry:\n201~300: 매우나쁨 :rage:"
+    result_msg = "미세먼지 등급표(PM10)\n0~30: 좋음 :smile:\n31~80: 보통 :slightly_smiling_face:\n81~120: 약간나쁨 :angry:\n121~200: 나쁨 :rage:\n201~300: 매우나쁨 :scream:"
     msg.send result_msg
 
   robot.hear /미세먼지! (.*)/i, (msg) ->
