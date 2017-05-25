@@ -32,7 +32,7 @@ module.exports = (robot) ->
 
       result_msg = "*#{timeObservation} 기준 #{station_name} 관측소 관측 결과* 입니다.\n"
       result_msg += "현재 기온은 *#{tc}도* 이며, 최고기온은 *#{tmax}도* 이고, 최저기온은 *#{tmin}도* 입니다.\n"
-      result_msg += "현재 풍속은 #{wspd}m/s 이며, 하늘은 `#{sky_name}` 입니다.\n"
+      result_msg += "현재 풍속은 *#{wspd}m/s* 이며, 하늘은 *#{sky_name}* 입니다.\n"
       if precipitation == 3
         result_msg += "또한 오늘은 눈 예보가 있으며, 적설량은 #{sinceOntime}cm 정도로 예상됩니다.\n"
       else if precipitation == 2
