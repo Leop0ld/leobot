@@ -15,7 +15,6 @@ module.exports = (robot) ->
     fetchWeather msg, msg.match[1], msg.match[2], msg.match[3]
 
   fetchWeather = (msg, city, county, village) ->
-    robot.logger.info city, county, village
     targetUrl = baseUrl + '&city=' + city + '&county=' + county + '&village=' + village
     robot.http(targetUrl).get() (err, res, body) ->
       dataObj = JSON.parse(body).weather.minutely[0]
