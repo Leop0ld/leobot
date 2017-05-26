@@ -20,15 +20,14 @@ fetchTrendings = (robot) ->
   robot.http(baseUrl + "/trending").get() (err, res, body) ->
     $ = cheerio.load body
 
-    linkList = []
+    resultMsg = ["현재의 Github Trending 순위 입니다!"]
     i = 0
     $('.d-inline-block > h3 > a').each ->
       a = $(this)
       url = baseUrl + a.attr('href')
-      linkList.push url
+      resultMsg.push url
       i++
       if i >= 5
         return false
 
-    for link in linkList.reverse()
-      robot.messageRoom '#dev', link
+    robot.messageRoom '#dev', resultMsg.join "\n"

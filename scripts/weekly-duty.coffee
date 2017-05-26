@@ -8,7 +8,7 @@
 
 module.exports = (robot) ->
   robot.hear /당번(업무| 업무)!/i, (msg) ->
-    result_msg = "1. 쓰레기 정리 및 배출(월~목요일)\n
+    resultMsg = "1. 쓰레기 정리 및 배출(월~목요일)\n
   * 배출 장소 : 1층 외부 계단 앞\n
   * 음료수 및 음식물 용기 : 내용물 비운 후 정리\n
   * 커피컵,뚜껑 등 : 각각 분리해서 정리\n
@@ -20,4 +20,4 @@ module.exports = (robot) ->
 2. 탕비 테이블 정리\n
 3. 커피머신 및 커피포트 세척\n
 4. 정수기 물받침대 확인 및 세척"
-    msg.send result_msg
+    msg.send resultMsg
