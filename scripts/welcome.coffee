@@ -1,6 +1,5 @@
 # Description:
 #     _general 에 들어오는 이벤트가 있으면 인사를 한다.
-#     사용법
 #
 # Author: Leop0ld
 #
