@@ -20,10 +20,10 @@ module.exports = (robot) ->
   robot.hear /저녁(추천| 추천)!/i, (msg) ->
     getData msg
 
-  robot.hear /저녁(추가| 추가)! (.*)/i, (msg) ->
+  robot.hear /저녁추가! (.*)/i, (msg) ->
     saveData msg, msg.match[1]
 
-  robot.hear /저녁(삭제| 삭제)! (.*)/i, (msg) ->
+  robot.hear /저녁삭제! (.*)/i, (msg) ->
     removeData msg, msg.match[1]
 
 
