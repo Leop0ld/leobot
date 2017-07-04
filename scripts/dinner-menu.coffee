@@ -1,29 +1,29 @@
 # Description
-#   점심메뉴 추천
+#   저녁메뉴 추천
 #
 # Author: Leop0ld
 #
 # Commands:
-#   점심목록! - 점심목록을 보여준다.
-#   점심추천! - 점심메뉴 중에 랜덤으로 추천해준다.
-#   점심추가! (메뉴이름) - 점심목록에 새로운 메뉴를 추가한다.
-#   점심삭제! (메뉴이름) - 점심목록에서 메뉴를 삭제한다.
+#   저녁목록! - 저녁목록을 보여준다.
+#   저녁추천! - 저녁메뉴 중에 랜덤으로 추천해준다.
+#   저녁추가! (메뉴이름) - 저녁목록에 새로운 메뉴를 추가한다.
+#   저녁삭제! (메뉴이름) - 저녁목록에서 메뉴를 삭제한다.
 
 ref = require "./initialize-firebase.coffee"
 
 module.exports = (robot) ->
-  lunchMenusRef = ref.ref.child "lunchMenus"
+  lunchMenusRef = ref.ref.child "dinnerMenus"
 
-  robot.hear /점심(목록| 목록)!/i, (msg) ->
+  robot.hear /저녁(목록| 목록)!/i, (msg) ->
     showData msg
 
-  robot.hear /점심(추천| 추천)!/i, (msg) ->
+  robot.hear /저녁(추천| 추천)!/i, (msg) ->
     getData msg
 
-  robot.hear /점심추가! (.*)/i, (msg) ->
+  robot.hear /저녁(추가| 추가)! (.*)/i, (msg) ->
     saveData msg, msg.match[1]
 
-  robot.hear /점심삭제! (.*)/i, (msg) ->
+  robot.hear /저녁(삭제| 삭제)! (.*)/i, (msg) ->
     removeData msg, msg.match[1]
 
 
