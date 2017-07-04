@@ -6,15 +6,26 @@
 cheerio = require 'cheerio'
 http = require 'http'
 cronJob = require('cron').CronJob
+moment = require 'moment'
 
 timeZone = "Asia/Seoul"
 baseUrl = "https://github.com"
+
+# 날짜 초기화
+day = 1000 * 3600 * 24
+week = day * 7
+onWeek = day * 5
 
 module.exports = (robot) ->
   new cronJob('0 30 10 * * *', sendMessageMethod(robot), null, true, timeZone)
 
 sendMessageMethod = (robot) ->
-  -> fetchTrendings(robot)
+  nowTime = moment().add(3, 'd').add(9, 'h')
+  remainTime = nowTime % week
+  isWeekendDay = if remainTime > onWeek then true else false
+
+  if isWeekendDay == false
+    -> fetchTrendings(robot)
 
 fetchTrendings = (robot) ->
   robot.http(baseUrl + "/trending").get() (err, res, body) ->
