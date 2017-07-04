@@ -9,9 +9,15 @@
 #   저녁추가! (메뉴이름) - 저녁목록에 새로운 메뉴를 추가한다.
 #   저녁삭제! (메뉴이름) - 저녁목록에서 메뉴를 삭제한다.
 
-ref = require "./initialize-firebase.coffee"
+firebase = require "firebase"
 
 module.exports = (robot) ->
+  firebase.initializeApp({
+    databaseURL: "https://luna-9235a.firebaseio.com"
+  })
+
+  db = firebase.database()
+  ref = db.ref "/"
   lunchMenusRef = ref.ref.child "dinnerMenus"
 
   robot.hear /저녁(목록| 목록)!/i, (msg) ->

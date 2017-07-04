@@ -9,10 +9,12 @@
 #   점심추가! (메뉴이름) - 점심목록에 새로운 메뉴를 추가한다.
 #   점심삭제! (메뉴이름) - 점심목록에서 메뉴를 삭제한다.
 
-ref = require "./initialize-firebase.coffee"
+firebase = require "firebase"
 
 module.exports = (robot) ->
-  lunchMenusRef = ref.ref.child "lunchMenus"
+  db = firebase.database()
+  ref = db.ref "/"
+  lunchMenusRef = ref.child "lunchMenus"
 
   robot.hear /점심(목록| 목록)!/i, (msg) ->
     showData msg
