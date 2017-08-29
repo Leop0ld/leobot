@@ -4,8 +4,8 @@
 # Author: Leop0ld
 #
 # Commands:
-#     출근 or ㅊ - 출근 체크
-#     퇴근 or ㅌ - 퇴근 체크
+#     출근 - 출근 체크
+#     퇴근 - 퇴근 체크
 
 moment = require 'moment'
 firebase = require 'firebase'
@@ -15,7 +15,7 @@ module.exports = (robot) ->
   ref = db.ref "/"
   workTimesRef = ref.child "workTimes"
 
-  robot.hear /(출근)\s/i, (res) ->
+  robot.hear /출근/i, (res) ->
     flag = true
     username = res.message.user.name
     data =
@@ -35,7 +35,7 @@ module.exports = (robot) ->
         res.send "이미 출근하셨습니다."
 
 
-  robot.hear /(퇴근)\s/i, (res) ->
+  robot.hear /퇴근/i, (res) ->
     username = res.message.user.name
     success = false
 
