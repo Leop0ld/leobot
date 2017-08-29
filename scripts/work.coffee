@@ -15,7 +15,7 @@ module.exports = (robot) ->
   ref = db.ref "/"
   workTimesRef = ref.child "workTimes"
 
-  robot.hear /(출근|ㅊ)/i, (res) ->
+  robot.hear /(출근)\s/i, (res) ->
     flag = true
     username = res.message.user.name
     data =
@@ -35,7 +35,7 @@ module.exports = (robot) ->
         res.send "이미 출근하셨습니다."
 
 
-  robot.hear /(퇴근|ㅌ)/i, (res) ->
+  robot.hear /(퇴근)\s/i, (res) ->
     username = res.message.user.name
     success = false
 
