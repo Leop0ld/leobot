@@ -12,6 +12,7 @@ module.exports = (robot) ->
       robot.messageRoom "#_general", "#{res.message.user.name} 님 반갑습니다! 저는 OPEN GALLERY Slack 을 위한 봇입니다. 사용법을 위해서는 `봇사용법!` 을 입력해주세요"
 
   robot.enter (res) ->
+    robot.messageRoom "#bot_test", res.message.user.room
     if res.message.user.room is 'bot_test'
       robot.messageRoom "#bot_test", "#{res.message.user.name} 님 반갑습니다! 저는 OPEN GALLERY Slack 을 위한 봇입니다. 사용법을 위해서는 `봇사용법!` 을 입력해주세요"
 
