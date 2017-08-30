@@ -44,11 +44,12 @@ module.exports = (robot) ->
     workTimesRef.once "value", (data) ->
       for key, value of data.val()
         if username == value.username
+          now = moment().unix()
           startedTime = moment.unix(value.startedAt).format("LTS");
-          endedTime = moment.unix(moment().unix()).format("LTS");
+          endedTime = moment.unix(now).format("LTS");
 
           # 시간 변환
-          workingSeconds = (moment().unix() - value.startedAt)
+          workingSeconds = (now - value.startedAt)
           workingMinutes = parseInt(workingSeconds / 60)
           workingHours = parseInt(workingMinutes / 60)
           workingSeconds %= 60
