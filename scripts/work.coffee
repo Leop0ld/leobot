@@ -20,7 +20,7 @@ module.exports = (robot) ->
     username = res.message.user.name
     data =
       username: "#{username}"
-      started_at: moment().unix()
+      startedAt: moment().unix()
     
     # 출근 중복 처리
     workTimesRef.once "value", (data) ->
@@ -42,8 +42,11 @@ module.exports = (robot) ->
     workTimesRef.once "value", (data) ->
       for key, value of data.val()
         if username == value.username
+          startedTime = moment.unix(value.startedAt).format("LTS");
+          endedTime = moment.unix(moment().unix()).format("LTS");
+
           # 시간 변환
-          workingSeconds = (moment().unix() - value.started_at)
+          workingSeconds = (moment().unix() - value.startedAt)
           workingMinutes = parseInt(workingSeconds / 60)
           workingHours = parseInt(workingMinutes / 60)
           workingSeconds %= 60
@@ -51,7 +54,7 @@ module.exports = (robot) ->
 
           # 출근했을 때 기록한 row 삭제
           workTimesRef.child(key).remove()
-          res.send "#{username} 님은 #{workingHours}시간 #{workingMinutes}분 #{workingSeconds}초 만큼 근무하셨습니다. 조심히 들어가세요!"
+          res.send "#{username} 님은 *#{startedTime}* 부터 *#{endedTime}* 까지 *총 #{workingHours}시간 #{workingMinutes}분 #{workingSeconds}초* 만큼 근무하셨습니다. 조심히 들어가세요!"
           success = true
     .then ->
       # 예외
