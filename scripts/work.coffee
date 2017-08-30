@@ -15,6 +15,8 @@ module.exports = (robot) ->
   ref = db.ref "/"
   workTimesRef = ref.child "workTimes"
 
+  moment.locale 'ko'
+
   robot.hear /출근/i, (res) ->
     flag = true
     username = res.message.user.name
