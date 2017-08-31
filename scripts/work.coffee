@@ -16,6 +16,7 @@ module.exports = (robot) ->
   workTimesRef = ref.child "workTimes"
 
   moment.locale 'ko'
+  timeZone = "Asia/Seoul"
 
   robot.hear /출근/i, (res) ->
     flag = true
@@ -36,7 +37,6 @@ module.exports = (robot) ->
       else
         res.send "이미 출근하셨습니다."
 
-
   robot.hear /퇴근/i, (res) ->
     username = res.message.user.name
     success = false
@@ -45,8 +45,8 @@ module.exports = (robot) ->
       for key, value of data.val()
         if username == value.username
           now = moment().unix()
-          startedTime = moment.unix(value.startedAt).format("LTS");
-          endedTime = moment.unix(now).format("LTS");
+          startedTime = moment.unix(value.startedAt).tz(timeZone).format("LTS");
+          endedTime = moment.unix(now).tz(timeZone).format("LTS");
 
           # 시간 변환
           workingSeconds = (now - value.startedAt)
