@@ -18,7 +18,7 @@ module.exports = (robot) ->
   moment.locale 'ko'
   timeZone = "Asia/Seoul"
 
-  robot.hear /출근/i, (res) ->
+  robot.hear /출근!/i, (res) ->
     flag = true
     username = res.message.user.name
     data =
@@ -37,7 +37,7 @@ module.exports = (robot) ->
       else
         res.send "이미 출근하셨습니다."
 
-  robot.hear /퇴근/i, (res) ->
+  robot.hear /퇴근!/i, (res) ->
     username = res.message.user.name
     success = false
 
