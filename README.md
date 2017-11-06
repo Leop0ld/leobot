@@ -9,7 +9,13 @@ OG BOT is a simple ROBOT using [Hubot](https://github.com/github/hubot) for [OPE
 
 First, require node 4.4.x runtime.
 
-And then input this command
+Set enviroment variable `FIREBASE_DATABASE_URL`.
+
+```
+export FIREBASE_DATABASE_URL="https://blahblah.firebaseio.com/"
+```
+
+And then input this command.
 
 ```shell
 $ bin/hubot

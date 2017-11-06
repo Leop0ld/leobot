@@ -12,10 +12,6 @@
 firebase = require "firebase"
 
 module.exports = (robot) ->
-  firebase.initializeApp({
-    databaseURL: "https://luna-9235a.firebaseio.com"
-  })
-
   db = firebase.database()
   ref = db.ref "/"
   lunchMenusRef = ref.ref.child "dinnerMenus"
