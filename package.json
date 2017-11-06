@@ -1,6 +1,6 @@
 {
   "name": "og-bot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Leop0ld <l3opold7@gmail.com>",
   "license": "MIT",
   "description": "A simple robot using Hubot for OPEN GALLERY",
@@ -26,7 +26,7 @@
     "request": "^2.81.0"
   },
   "engines": {
-    "node": "4.4.x"
+    "node": "6.9.x"
   },
   "repository": {
     "type": "git",
