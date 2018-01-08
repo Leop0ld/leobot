@@ -30,19 +30,22 @@ module.exports = (robot) ->
   robot.hear /점심삭제! (.*) 카테고리! (.*)/i, (msg) ->
     removeMenu msg, msg.match[1], msg.match[2]
 
-  robot.hear /카테고리!/i, (msg) ->
+  robot.hear /점심카테고리!/i, (msg) ->
     showCategory msg
 
 
   showMenuList = (msg, category) ->
     menuList = []
+    if category.trim() == ""
+      msg.send "다음은 *전체* 메뉴 목록입니다.\n"
+    else
+      msg.send "다음은 *#{category.trim()}* 카테고리의 목록입니다.\n"
+
     lunchMenusRef.once "value", (data) ->
       if category.trim() == ""
-        msg.send "다음은 *전체* 메뉴 목록입니다.\n"
         for key, value of data.val()
           menuList.push value.menu
       else
-        msg.send "다음은 *#{category.trim()}* 카테고리의 목록입니다.\n"
         for key, value of data.val()
           if value.category == category.trim()
             menuList.push value.menu
@@ -97,10 +100,11 @@ module.exports = (robot) ->
           msg.send "카테고리 *#{value.category}* 의 *#{value.menu}* 삭제 완료!"
 
   showCategory = (msg) ->
-    resultArr = []
+    categoryArr = []
+
     lunchMenusRef.once "value", (data) ->
       for key, value of data.val()
-        if resultArr.indexOf value.category == -1
-          resultArr.push value.category
+        if categoryArr.indexOf(value.category) < 0
+          categoryArr.push value.category
 
-    msg.send resultArr.join '\n'
+      msg.send categoryArr.join '\n'
