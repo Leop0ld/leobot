@@ -1,5 +1,5 @@
 # Description:
-#     당번이 할 일을 알려줍니다.
+#     pm10 미세먼지 농도를 알려줍니다.
 #
 # Author: Leop0ld
 #
