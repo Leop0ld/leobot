@@ -8,7 +8,7 @@
 
 http = require 'http'
 
-baseUrl = 'http://apis.skplanetx.com/weather/current/minutely?version=1&appKey=e07f3817-4579-38e7-9dd5-3d9930e06fb9'
+baseUrl = 'https://api2.sktelecom.com/weather/current/minutely?version=1&appKey=9ffe2c4e-4210-415c-a524-5b6190d3e286'
 
 module.exports = (robot) ->
   robot.hear /날씨! (.*) (.*) (.*)/i, (msg) ->
