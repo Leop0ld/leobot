@@ -4,10 +4,10 @@
 # Author: Leop0ld
 #
 # Commands:
-#     가위바위보 (가위 or 찌) or (바위 or 묵) or (보 or 빠)! - 봇과 가위바위보를 할 수 있다.
+#     가위바위보! (가위 or 찌) or (바위 or 묵) or (보 or 빠) - 봇과 가위바위보를 할 수 있다.
 
 module.exports = (robot) ->
-  robot.hear /가위바위보 (가위|바위|보|묵|찌|빠|)!$/i, (msg) ->
+  robot.hear /가위바위보! (가위|바위|보|묵|찌|빠|)$/i, (msg) ->
     choices = ['가위', '바위', '보']
     rocks = ['바위', '묵']
     scissors = ['가위', '찌']
@@ -42,11 +42,11 @@ module.exports = (robot) ->
             bot_match_status = 1
 
     if bot_match_status == 1
-      response = "[OG BOT 승리] : (#{username}, #{user_choice}) vs (OG BOT, #{bot_choice})"
+      response = "[Luna 승리] : (#{username}, #{user_choice}) vs (Luna, #{bot_choice})"
     else if bot_match_status == 0
-      response = "[무승부] : (#{username}, #{user_choice}) vs (OG BOT, #{bot_choice})"
+      response = "[무승부] : (#{username}, #{user_choice}) vs (Luna, #{bot_choice})"
     else
-      response = "[#{username} 승리] : (#{username}, #{user_choice}) vs (OG BOT, #{bot_choice})"
+      response = "[#{username} 승리] : (#{username}, #{user_choice}) vs (Luna, #{bot_choice})"
 
     msg.send response
 

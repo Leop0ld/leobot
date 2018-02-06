@@ -1,11 +1,11 @@
 # Description:
 #     출퇴근 체크 및 근무시간 계산
+#     출근! - 출근 체크
+#     퇴근! - 퇴근 체크
 #
 # Author: Leop0ld
 #
 # Commands:
-#     출근 - 출근 체크
-#     퇴근 - 퇴근 체크
 
 moment = require 'moment'
 firebase = require 'firebase'
