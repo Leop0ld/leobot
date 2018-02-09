@@ -4,18 +4,41 @@
 # Author: Leop0ld
 #
 # Commands:
-#     날씨! (시/도) (시/군/구) (읍/면/동) - 지정한 위치의 분별 날씨를 알려줍니다.
+#     날씨! (위치) - 지정한 위치의 분별 날씨를 알려줍니다.
 
 http = require 'http'
+q = require 'q'
 
 baseUrl = 'https://api2.sktelecom.com/weather/current/minutely?version=1&appKey=9ffe2c4e-4210-415c-a524-5b6190d3e286'
 
 module.exports = (robot) ->
-  robot.hear /날씨! (.*) (.*) (.*)/i, (msg) ->
-    fetchWeather msg, msg.match[1], msg.match[2], msg.match[3]
+  robot.hear /날씨! (.*)/i, (msg) ->
+    location = decodeURIComponent(unescape(msg.match[1]))
+    getGeocode(msg, location)
+    .then (geoCode) ->
+      getWeather(msg, geoCode, location)
 
-  fetchWeather = (msg, city, county, village) ->
-    targetUrl = baseUrl + '&city=' + city + '&county=' + county + '&village=' + village
+  getGeocode = (msg, location) ->
+    deferred = q.defer()
+    robot.http("https://maps.googleapis.com/maps/api/geocode/json")
+      .query({
+        address: location
+      })
+      .get() (err, res, body) ->
+        response = JSON.parse(body)
+        geo = response.results[0].geometry.location
+        if response.status is "OK"
+          geoCode = {
+            lat : geo.lat
+            lng : geo.lng
+          }
+          deferred.resolve(geoCode)
+        else
+          deferred.reject(err)
+    return deferred.promise
+
+  getWeather = (msg, geoCode, location) ->
+    targetUrl = "#{baseUrl}&lat=#{geoCode.lat}&lon=#{geoCode.lng}"
     robot.http(targetUrl).get() (err, res, body) ->
       dataObj = JSON.parse(body).weather.minutely[0]
 
