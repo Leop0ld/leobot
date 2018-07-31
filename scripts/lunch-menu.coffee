@@ -65,7 +65,7 @@ module.exports = (robot) ->
 
       for key, value of filteredData
         if key == objectKeys[index]
-          msg.send "*#{value.menu}*"
+          msg.send "*#{value.menu}*\nhttp://map.daum.net?q=#{encodeURIComponent(value.menu)}"
 
   filterMenu = (data, category) ->
     resultArr = []
