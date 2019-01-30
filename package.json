@@ -1,9 +1,9 @@
 {
-  "name": "og-bot",
+  "name": "leobot",
   "version": "1.0.0",
   "author": "Leop0ld <l3opold7@gmail.com>",
   "license": "MIT",
-  "description": "A simple robot using Hubot for OPEN GALLERY",
+  "description": "A simple robot using Hubot",
   "dependencies": {
     "cheerio": "^0.22.0",
     "cron": "^1.2.1",
